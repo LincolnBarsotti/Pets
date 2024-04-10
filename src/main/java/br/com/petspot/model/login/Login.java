@@ -1,5 +1,7 @@
 package br.com.petspot.model.login;
 
+import br.com.petspot.dto.registerDto.RegisterDto;
+import br.com.petspot.model.petOwner.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -18,15 +20,26 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "email"})
 @Entity(name = "Login")
+@Table(name = "login")
 public class Login {
     @Id
-    @UuidGenerator(style = UuidGenerator.Style.AUTO)
-    private UUID id;
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
+    private String id;
 
     @Email
     private String email;
 
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\\\d)(?=.*[@#$%^&+=!])(?=\\\\S+$).{6,}$",
-            message = "A senha deve conter pelo menos 6 caracteres, com pelo menos uma letra maiúscula, uma letra minúscula, um dígito e um caractere especial." )
-    private String senha;
+    private String passwordLogin;
+
+    private String typeOfUser;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner petOwner;
+
+    public Login(RegisterDto registerDto) {
+        this.email = registerDto.email();
+        this.passwordLogin = registerDto.senha();
+        this.typeOfUser = registerDto.usuario();
+    }
 }

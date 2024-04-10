@@ -9,5 +9,5 @@ import java.util.UUID;
  * @author Lincoln
  */
 public interface LoginRepository extends JpaRepository<Login, UUID> {
-    Login findByEmailAndSenha(String email, String senha);
+    Login findByEmailAndAndPasswordLogin(String email, String senha);
 }
