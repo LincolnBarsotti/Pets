@@ -1,10 +1,8 @@
 package br.com.petspot.dto.registerDto;
 
 import jakarta.validation.constraints.Email;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public record RegisterDto(
