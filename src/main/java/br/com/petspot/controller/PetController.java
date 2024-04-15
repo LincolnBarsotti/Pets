@@ -1,6 +1,7 @@
 package br.com.petspot.controller;
 
 
+import br.com.petspot.dto.petDto.AllDatasPetDto;
 import br.com.petspot.dto.petDto.RegisterPetDto;
 import br.com.petspot.dto.petDto.SavedDatasPetDto;
 import br.com.petspot.model.Pet.Pet;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/pet")
@@ -24,6 +24,15 @@ public class PetController {
 
     @Autowired
     private PetOwnerRepository ownerRepository;
+
+    @GetMapping("/{id}")
+    public ResponseEntity specifcDataListOfPet(@PathVariable(name = "id") String param){
+        Pet pet = petRepository.getReferenceById(param);
+
+        return ResponseEntity.ok(new AllDatasPetDto(pet));
+    }
+
+
 
     @PostMapping("/{id}")
     @Transactional
