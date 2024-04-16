@@ -9,14 +9,17 @@ import br.com.petspot.model.petOwner.PetOwner;
 import br.com.petspot.repository.PetOwnerRepository;
 import br.com.petspot.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
+
 @RestController
-@RequestMapping("/pet")
+@RequestMapping("{id}/pet")
 public class PetController {
 
     @Autowired
@@ -25,20 +28,22 @@ public class PetController {
     @Autowired
     private PetOwnerRepository ownerRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity specifcDataListOfPet(@PathVariable(name = "id") String param){
+    @GetMapping("/{petId}")
+    public ResponseEntity specifcDataListOfPet(@PathVariable(name = "id") String tutor,@PathVariable(name = "petId") String param){
         Pet pet = petRepository.getReferenceById(param);
-
         return ResponseEntity.ok(new AllDatasPetDto(pet));
     }
 
+    @GetMapping
+    public ResponseEntity<Page<Pet>> allPets(@PathVariable(name = "id") String tutor, Pageable pageable){
+        return ResponseEntity.ok().build();
+    }
 
-
-    @PostMapping("/{id}")
+    @PostMapping()
     @Transactional
-    public ResponseEntity registerPet(@RequestBody RegisterPetDto petDto,@PathVariable(name = "id") String param, UriComponentsBuilder uriBuilder){
+    public ResponseEntity registerPet(@RequestBody RegisterPetDto petDto,@PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
 
-        PetOwner owner =  ownerRepository.getReferenceById(param);
+        PetOwner owner =  ownerRepository.getReferenceById(tutor);
 
         Pet pet = new Pet(petDto);
         petRepository.save(pet);
