@@ -1,13 +1,11 @@
 package br.com.petspot.model.login;
 
-import br.com.petspot.dto.registerDto.RegisterDto;
 import br.com.petspot.model.petOwner.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-
+import br.com.petspot.dto.registerDto.RegisterDto;
 import java.util.UUID;
 
 /**

@@ -5,7 +5,6 @@ import br.com.petspot.dto.registerDto.RegisterDto;
 import br.com.petspot.model.login.Login;
 import br.com.petspot.model.petOwner.PetOwner;
 import br.com.petspot.repository.LoginRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import br.com.petspot.dto.registerDto.RegisterDto;
+
 
 @RestController
 @RequestMapping("register")

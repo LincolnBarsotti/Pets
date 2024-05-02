@@ -21,7 +21,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity signIn(@RequestBody @Valid LoginDto loginDto) {
 
-        Login auth = repository.findByEmailAndAndPasswordLogin(loginDto.email(), loginDto.senha());
+        Login auth = repository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
 
         if (auth != null){
             return ResponseEntity.ok("Autenticação bem-sucedida.");
