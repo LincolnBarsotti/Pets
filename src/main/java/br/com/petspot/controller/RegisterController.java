@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import br.com.petspot.dto.registerDto.RegisterDto;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("register")

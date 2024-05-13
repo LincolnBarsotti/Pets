@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import br.com.petspot.dto.registerDto.RegisterDto;
-import java.util.UUID;
 
 /**
  * @author Lincoln
