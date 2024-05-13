@@ -4,7 +4,8 @@ import br.com.petspot.model.Pet.Pet;
 
 import java.util.Date;
 
-public record AllDatasPetDto(
+public record
+AllDatasPetDto(
         String id,
         String nome,
         String peso,
