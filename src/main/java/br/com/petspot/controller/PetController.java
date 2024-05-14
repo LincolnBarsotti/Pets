@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("{id}/pet")
-@CrossOrigin("localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PetController {
 
     @Autowired
