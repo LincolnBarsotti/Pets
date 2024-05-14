@@ -39,7 +39,7 @@ public class PetController {
         return ResponseEntity.ok(new AllDatasPetDto(pet));
     }
 
-    @PostMapping()
+    @PostMapping
     @Transactional
     public ResponseEntity registerPet(@RequestBody RegisterPetDto petDto,@PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
 
