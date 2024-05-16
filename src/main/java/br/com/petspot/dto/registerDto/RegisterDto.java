@@ -2,6 +2,7 @@ package br.com.petspot.dto.registerDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.ParseException;
@@ -11,11 +12,16 @@ import java.util.Date;
 public record RegisterDto(
         @Email
         String email,
-        @NotBlank
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+{}|;':\"/.,<>?])[a-zA-Z0-9~!@#$%^&*()_+{}|;':\"/.,<>?]+$",
+                message = "Sua senha deve contar 1 Maiuscula, 1 minuscula, 1 número e um caracter especial'(@,!,#,$ ...)'")
         String senha,
+        @NotBlank
         String usuario,
+        @NotBlank
         String nome,
+        @NotBlank
         String sobrenome,
+        @NotBlank
         String dataDeNascimento
 ) {
 
