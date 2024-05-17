@@ -1,4 +1,4 @@
-package br.com.petspot.dto.registerDto;
+package br.com.petspot.model.dto.registerDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

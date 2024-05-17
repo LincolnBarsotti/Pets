@@ -1,10 +1,10 @@
 package br.com.petspot.controller;
 
-import br.com.petspot.dto.petDto.AllDatasPetDto;
-import br.com.petspot.dto.petDto.RegisterPetDto;
-import br.com.petspot.dto.petDto.SavedDatasPetDto;
-import br.com.petspot.model.Pet.Pet;
-import br.com.petspot.model.petOwner.PetOwner;
+import br.com.petspot.model.dto.petDto.AllDatasPetDto;
+import br.com.petspot.model.dto.petDto.RegisterPetDto;
+import br.com.petspot.model.dto.petDto.SavedDatasPetDto;
+import br.com.petspot.model.entity.Pet.Pet;
+import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.PetOwnerRepository;
 import br.com.petspot.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;

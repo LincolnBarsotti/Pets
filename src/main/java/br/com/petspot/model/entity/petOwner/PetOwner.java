@@ -1,8 +1,8 @@
-package br.com.petspot.model.petOwner;
+package br.com.petspot.model.entity.petOwner;
 
-import br.com.petspot.dto.registerDto.RegisterDto;
-import br.com.petspot.model.Pet.Pet;
-import br.com.petspot.model.login.Login;
+import br.com.petspot.model.dto.registerDto.RegisterDto;
+import br.com.petspot.model.entity.Pet.Pet;
+import br.com.petspot.model.entity.login.Login;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;

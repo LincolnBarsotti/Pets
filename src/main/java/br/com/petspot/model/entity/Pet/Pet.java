@@ -1,7 +1,7 @@
-package br.com.petspot.model.Pet;
+package br.com.petspot.model.entity.Pet;
 
-import br.com.petspot.dto.petDto.RegisterPetDto;
-import br.com.petspot.model.petOwner.PetOwner;
+import br.com.petspot.model.dto.petDto.RegisterPetDto;
+import br.com.petspot.model.entity.petOwner.PetOwner;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

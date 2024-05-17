@@ -1,7 +1,7 @@
 package br.com.petspot.controller;
 
-import br.com.petspot.dto.loginDto.LoginDto;
-import br.com.petspot.model.login.Login;
+import br.com.petspot.model.dto.loginDto.LoginDto;
+import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.repository.LoginRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
