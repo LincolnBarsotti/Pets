@@ -1,6 +1,7 @@
 package br.com.petspot.controller;
 
 import br.com.petspot.model.dto.loginDto.LoginDto;
+import br.com.petspot.model.dto.loginDto.MessageLoginDto;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.repository.LoginRepository;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class LoginController {
         Login auth = repository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
 
         if (auth != null){
-            return ResponseEntity.ok("Autenticação bem-sucedida.");
+            return ResponseEntity.ok(new MessageLoginDto(loginDto.email()));
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas. Autenticação falhou");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
     }
 }
