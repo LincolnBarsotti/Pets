@@ -1,6 +1,6 @@
 package br.com.petspot.controller;
 
-import br.com.petspot.dto.loginDto.EmailDto;
+import br.com.petspot.dto.registerDto.MensagemResgitroDto;
 import br.com.petspot.dto.registerDto.RegisterDto;
 import br.com.petspot.model.login.Login;
 import br.com.petspot.model.petOwner.PetOwner;
@@ -29,7 +29,7 @@ public class RegisterController {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new EmailDto(login.getEmail()));
+        return ResponseEntity.created(uri).body(new MensagemResgitroDto(login.getEmail()));
     }
 
 }
