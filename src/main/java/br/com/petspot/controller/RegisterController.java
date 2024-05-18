@@ -1,9 +1,9 @@
 package br.com.petspot.controller;
 
-import br.com.petspot.dto.registerDto.MensagemResgitroDto;
-import br.com.petspot.dto.registerDto.RegisterDto;
-import br.com.petspot.model.login.Login;
-import br.com.petspot.model.petOwner.PetOwner;
+import br.com.petspot.model.dto.registerDto.MessageResgiterDto;
+import br.com.petspot.model.dto.registerDto.RegisterDto;
+import br.com.petspot.model.entity.login.Login;
+import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class RegisterController {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new MensagemResgitroDto(login.getEmail()));
+        return ResponseEntity.created(uri).body(new MessageResgiterDto(login.getEmail()));
     }
 
 }

@@ -1,6 +1,6 @@
-package br.com.petspot.dto.petDto;
+package br.com.petspot.model.dto.petDto;
 
-import br.com.petspot.model.Pet.Pet;
+import br.com.petspot.model.entity.Pet.Pet;
 
 import java.util.Date;
 

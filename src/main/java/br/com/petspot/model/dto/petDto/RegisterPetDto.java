@@ -1,4 +1,4 @@
-package br.com.petspot.dto.petDto;
+package br.com.petspot.model.dto.petDto;
 
 import jakarta.validation.constraints.NotBlank;
 

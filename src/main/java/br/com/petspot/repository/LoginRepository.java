@@ -1,6 +1,6 @@
 package br.com.petspot.repository;
 
-import br.com.petspot.model.login.Login;
+import br.com.petspot.model.entity.login.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
