@@ -1,9 +1,8 @@
-package br.com.petspot.model.dto.registerDto;
+package br.com.petspot.model.dto.petowner.registerdto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

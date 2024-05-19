@@ -1,8 +1,8 @@
-package br.com.petspot.controller;
+package br.com.petspot.controller.pet;
 
-import br.com.petspot.model.dto.petDto.AllDatasPetDto;
-import br.com.petspot.model.dto.petDto.RegisterPetDto;
-import br.com.petspot.model.dto.petDto.SavedDatasPetDto;
+import br.com.petspot.model.dto.petdto.AllDatasPetDto;
+import br.com.petspot.model.dto.petdto.RegisterPetDto;
+import br.com.petspot.model.dto.petdto.SavedDatasPetDto;
 import br.com.petspot.model.entity.Pet.Pet;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.PetOwnerRepository;

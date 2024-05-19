@@ -1,6 +1,6 @@
 package br.com.petspot.model.entity.petOwner;
 
-import br.com.petspot.model.dto.registerDto.RegisterDto;
+import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
 import br.com.petspot.model.entity.Pet.Pet;
 import br.com.petspot.model.entity.login.Login;
 import jakarta.persistence.*;
