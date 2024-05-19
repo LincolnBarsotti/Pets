@@ -1,4 +1,4 @@
-package br.com.petspot.model.dto.petDto;
+package br.com.petspot.model.dto.petdto;
 
 import lombok.Data;
 

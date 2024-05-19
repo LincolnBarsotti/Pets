@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import br.com.petspot.model.dto.registerDto.RegisterDto;
+import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
 
 /**
  * @author Lincoln
