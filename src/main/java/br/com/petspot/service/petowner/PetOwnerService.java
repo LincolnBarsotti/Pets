@@ -34,7 +34,7 @@ public class PetOwnerService {
     public ResponseEntity register(RegisterDto registerDto, UriComponentsBuilder uriBuilder){
 
         if (loginRepository.existsLoginByEmail(registerDto.email())){
-            return ResponseEntity.ok("Outra conta está usando o mesmo email.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Outra conta está usando o mesmo email.");
         }
 
         Login login = new Login(registerDto);
