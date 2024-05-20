@@ -2,11 +2,7 @@ package br.com.petspot.controller.pet;
 
 import br.com.petspot.model.dto.petdto.AllDatasPetDto;
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
-import br.com.petspot.model.dto.petdto.SavedDatasPetDto;
-import br.com.petspot.model.entity.Pet.Pet;
-import br.com.petspot.model.entity.petOwner.PetOwner;
-import br.com.petspot.repository.PetOwnerRepository;
-import br.com.petspot.repository.PetRepository;
+import br.com.petspot.service.pet.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,38 +18,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class PetController {
 
     @Autowired
-    private PetRepository petRepository;
-
-    @Autowired
-    private PetOwnerRepository ownerRepository;
+    private PetService petService;
 
     @GetMapping("/findAll")
     public ResponseEntity<Page<AllDatasPetDto>> listPetByOwner(@PathVariable(name = "id") String tutor, @PageableDefault(size = 2, sort = {"petName"}) Pageable page){
-    var pg = petRepository.findAllByPetOwners_Id(tutor,page).map(AllDatasPetDto::new);
-        return ResponseEntity.ok(pg);
+        return petService.listPetByOwner(tutor, page);
     }
 
     @GetMapping("/{petId}")
-    public ResponseEntity specifcDataListOfPet(@PathVariable(name = "id") String tutor,@PathVariable(name = "petId") String param){
-        Pet pet = petRepository.getReferenceById(param);
-        return ResponseEntity.ok(new AllDatasPetDto(pet));
+    public ResponseEntity specifcDataOfPetByID(@PathVariable(name = "petId") String param){
+        return petService.specifcDataOfPetByID(param);
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity registerPet(@RequestBody RegisterPetDto petDto,@PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
-
-        PetOwner owner =  ownerRepository.getReferenceById(tutor);
-
-        Pet pet = new Pet(petDto);
-        petRepository.save(pet);
-
-        owner.getPet().add(pet);
-        ownerRepository.save(owner);
-
-        var uri = uriBuilder.path("pet/{id}").buildAndExpand(pet.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(new SavedDatasPetDto(pet));
+        return petService.registerPet(petDto,tutor,uriBuilder);
     }
 
 }
