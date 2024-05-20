@@ -3,12 +3,14 @@ package br.com.petspot.service.pet;
 import br.com.petspot.model.dto.petdto.AllDatasPetDto;
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
 import br.com.petspot.model.dto.petdto.SavedDatasPetDto;
+import br.com.petspot.model.dto.petdto.messages.MessageAllDatasPetDto;
+import br.com.petspot.model.dto.petdto.messages.MessageListPageablePetDto;
+import br.com.petspot.model.dto.petdto.messages.MessageRegisterPetDto;
 import br.com.petspot.model.entity.Pet.Pet;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.PetOwnerRepository;
 import br.com.petspot.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,20 @@ public class PetService {
     @Autowired
     private PetOwnerRepository ownerRepository;
 
-    public ResponseEntity<Page<AllDatasPetDto>> listPetByOwner(String tutor, Pageable page){
-        return ResponseEntity.ok(petRepository.findAllByPetOwners_Id(tutor,page).map(AllDatasPetDto::new));
+    public ResponseEntity<MessageListPageablePetDto> listPetByOwner(String tutor, Pageable page){
+        return ResponseEntity.ok(
+                new MessageListPageablePetDto(
+                        petRepository.findAllByPetOwners_Id(tutor,page).map(AllDatasPetDto::new)
+                )
+        );
     }
 
-    public ResponseEntity specifcDataOfPetByID(String param){
+    public ResponseEntity<MessageAllDatasPetDto> specifcDataOfPetByID(String param){
         Pet pet = petRepository.getReferenceById(param);
-        return ResponseEntity.ok(new AllDatasPetDto(pet));
+        return ResponseEntity.ok(new MessageAllDatasPetDto(new AllDatasPetDto(pet)));
     }
 
-    public ResponseEntity registerPet( RegisterPetDto petDto, String tutor, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<MessageRegisterPetDto> registerPet( RegisterPetDto petDto, String tutor, UriComponentsBuilder uriBuilder){
 
         PetOwner owner =  ownerRepository.getReferenceById(tutor);
 
@@ -44,10 +50,8 @@ public class PetService {
 
         var uri = uriBuilder.path("pet/{id}").buildAndExpand(pet.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new SavedDatasPetDto(pet));
+        return ResponseEntity.created(uri).body(new MessageRegisterPetDto(new SavedDatasPetDto(pet)));
     }
-
-
 
 
 }
