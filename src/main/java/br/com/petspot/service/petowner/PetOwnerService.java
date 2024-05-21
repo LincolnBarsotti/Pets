@@ -7,6 +7,8 @@ import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.LoginRepository;
+import br.com.petspot.service.email.EmailService;
+import br.com.petspot.service.email.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,16 @@ public class PetOwnerService {
     @Autowired
     private LoginRepository loginRepository;
 
+    @Autowired
+    private SendEmail sendEmail;
+
     public ResponseEntity signIn(LoginDto loginDto){
         Login auth = loginRepository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
 
         if (auth != null){
+            sendEmail.sendEmail(auth.getEmail(),
+                    "Login efetuado",
+                    "Login efetuado em nossa plataforma");
             return ResponseEntity.ok(new MessageLoginDto(loginDto.email()));
         }
 
@@ -46,4 +54,12 @@ public class PetOwnerService {
 
         return ResponseEntity.created(uri).body(new MessageResgiterDto(login.getEmail()));
     }
+
+    public ResponseEntity recoverPassword(String email){
+        sendEmail.sendEmail(email, "Recuperação de senha","Houve um pedido de solicitação de senha, por favor acesse o link:\n link");
+        return ResponseEntity.ok().build();
+    }
+
+
+
 }
