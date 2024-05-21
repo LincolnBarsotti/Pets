@@ -1,4 +1,4 @@
-package br.com.petspot.model.dto.petowner.logindto;
+package br.com.petspot.model.dto.logindto;
 
 import jakarta.validation.constraints.Email;
 

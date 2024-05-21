@@ -1,13 +1,13 @@
 package br.com.petspot.service.petowner;
 
-import br.com.petspot.model.dto.petowner.logindto.LoginDto;
-import br.com.petspot.model.dto.petowner.logindto.MessageLoginDto;
-import br.com.petspot.model.dto.petowner.registerdto.MessageResgiterDto;
+import br.com.petspot.model.dto.logindto.LoginDto;
+import br.com.petspot.model.messages.login.MessageLoginDto;
+import br.com.petspot.model.messages.login.MessageToRequestNewPassword;
+import br.com.petspot.model.messages.register.MessageResgiterDto;
 import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.LoginRepository;
-import br.com.petspot.service.email.EmailService;
 import br.com.petspot.service.email.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,9 +55,13 @@ public class PetOwnerService {
         return ResponseEntity.created(uri).body(new MessageResgiterDto(login.getEmail()));
     }
 
-    public ResponseEntity recoverPassword(String email){
-        sendEmail.sendEmail(email, "Recuperação de senha","Houve um pedido de solicitação de senha, por favor acesse o link:\n link");
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MessageToRequestNewPassword> recoverPassword(String email){
+        if (loginRepository.existsLoginByEmail(email)){
+            sendEmail.sendEmail(email, "Recuperação de senha","Houve um pedido de solicitação de senha, por favor acesse o link:\n link");
+            return ResponseEntity.ok(new MessageToRequestNewPassword("Email enviado com sucesso"));
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageToRequestNewPassword("Verifique se o email foi digitado corretamente"));
     }
 
 

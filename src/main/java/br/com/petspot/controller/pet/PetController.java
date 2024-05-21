@@ -1,13 +1,11 @@
 package br.com.petspot.controller.pet;
 
-import br.com.petspot.model.dto.petdto.AllDatasPetDto;
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
-import br.com.petspot.model.dto.petdto.messages.MessageAllDatasPetDto;
-import br.com.petspot.model.dto.petdto.messages.MessageListPageablePetDto;
-import br.com.petspot.model.dto.petdto.messages.MessageRegisterPetDto;
+import br.com.petspot.model.messages.pet.MessageAllDatasPetDto;
+import br.com.petspot.model.messages.pet.MessageListPageablePetDto;
+import br.com.petspot.model.messages.pet.MessageRegisterPetDto;
 import br.com.petspot.service.pet.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
