@@ -57,7 +57,7 @@ public class LoginService {
 
     public ResponseEntity<MessageToRequestNewPassword> recoverPassword(String email){
         if (loginRepository.existsLoginByEmail(email)){
-            sendEmail.sendEmail(email, "Recuperação de senha","Houve um pedido de solicitação de senha, por favor acesse o link:\n link");
+            sendEmail.sendRequestNewPasswordEmail(email);
             return ResponseEntity.ok(new MessageToRequestNewPassword("Email enviado com sucesso"));
         }
 

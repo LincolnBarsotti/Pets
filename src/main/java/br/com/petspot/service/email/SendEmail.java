@@ -19,16 +19,24 @@ public class SendEmail {
     @Autowired
     private JavaMailSender mailSender;
 
+    // Falta criar o HTML para envio da requisição de uma nova senha
+
     @Async
-    public void sendEmail(String to, String subject, String body){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
+    public void sendRequestNewPasswordEmail(String to){
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            message.setRecipients(MimeMessage.RecipientType.TO, to);
+            message.setSubject("Solicitação de troca de senha");
+            message.setContent(getRequestNewPasswordBodyMessage(), "text/html; charset=utf-8");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
         mailSender.send(message);
     }
 
+    @Async
     public void sendRegisterEmail(String to, String nameUser){
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -43,12 +51,13 @@ public class SendEmail {
         mailSender.send(message);
     }
 
+    @Async
     public void sendLoginEmail(String to, String nameUser){
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
             message.setRecipients(MimeMessage.RecipientType.TO, to);
-            message.setSubject("Bem-vindo ao PetSpot");
+            message.setSubject("Aviso de Login");
             message.setContent(getLoginBodyMessage().replace("${nameUser}", nameUser), "text/html; charset=utf-8");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -57,7 +66,7 @@ public class SendEmail {
         mailSender.send(message);
     }
 
-    public String getRegisterBodyMessage() {
+    private String getRegisterBodyMessage() {
         try {
             return Files.readString(Paths.get("src/main/resources/template/RegisterMail.html"), StandardCharsets.UTF_8);
         }catch (IOException e){
@@ -65,9 +74,17 @@ public class SendEmail {
         }
     }
 
-    public String getLoginBodyMessage() {
+    private String getLoginBodyMessage() {
         try {
             return Files.readString(Paths.get("src/main/resources/template/LoginMail.html"), StandardCharsets.UTF_8);
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getRequestNewPasswordBodyMessage() {
+        try {
+            return Files.readString(Paths.get("src/main/resources/template/RequestNewPassword.html"), StandardCharsets.UTF_8);
         }catch (IOException e){
             throw new RuntimeException(e);
         }
