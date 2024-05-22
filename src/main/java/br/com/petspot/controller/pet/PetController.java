@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("{id}/pet")
-@CrossOrigin(origins = "http://localhost:5173")
 public class PetController {
 
     @Autowired
@@ -36,5 +35,6 @@ public class PetController {
     public ResponseEntity<MessageRegisterPetDto> registerPet(@RequestBody RegisterPetDto petDto, @PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
         return petService.registerPet(petDto,tutor,uriBuilder);
     }
+
 
 }

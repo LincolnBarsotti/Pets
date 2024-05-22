@@ -1,11 +1,12 @@
 package br.com.petspot.model.entity.login;
 
+import br.com.petspot.model.dto.logindto.TypesUsers;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
+import br.com.petspot.model.dto.logindto.RegisterUserDto;
 
 /**
  * @author Lincoln
@@ -34,9 +35,9 @@ public class Login {
     @JoinColumn(name = "pet_owner_id")
     private PetOwner petOwner;
 
-    public Login(RegisterDto registerDto) {
-        this.email = registerDto.email();
-        this.passwordLogin = registerDto.senha();
-        this.typeOfUser = registerDto.usuario();
+    public Login(RegisterUserDto registerUserDto) {
+        this.email = registerUserDto.email();
+        this.passwordLogin = registerUserDto.senha();
+        this.typeOfUser = TypesUsers.PETOWNER.name();
     }
 }

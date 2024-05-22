@@ -12,7 +12,7 @@ AllDatasPetDto(
         Date nascimento,
         String especie,
         String raca,
-        int genero
+        Integer genero
 
 ) {
     public AllDatasPetDto(Pet pet){
