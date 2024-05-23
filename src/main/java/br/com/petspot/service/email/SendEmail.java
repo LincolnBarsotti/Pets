@@ -1,5 +1,6 @@
 package br.com.petspot.service.email;
 
+import br.com.petspot.model.dto.logindto.FormsContactDto;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ public class SendEmail {
     @Autowired
     private JavaMailSender mailSender;
 
-    // Falta criar o HTML para envio da requisição de uma nova senha
 
     @Async
     public void sendRequestNewPasswordEmail(String to){
@@ -81,6 +81,20 @@ public class SendEmail {
         mailSender.send(message);
     }
 
+    public void contactUs(FormsContactDto formsContactDto) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        try {
+            message.setFrom(formsContactDto.email());
+            message.setTo("contatodl2b@gmail.com");
+
+            message.setSubject(formsContactDto.subject());
+            message.setText(formsContactDto.getNameAndBody());
+
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String getRegisterBodyMessage() {
         try {
             return Files.readString(Paths.get("src/main/resources/template/RegisterMail.html"), StandardCharsets.UTF_8);
@@ -104,6 +118,7 @@ public class SendEmail {
             throw new RuntimeException(e);
         }
     }
+
 
 
 }

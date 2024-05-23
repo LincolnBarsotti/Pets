@@ -1,9 +1,6 @@
 package br.com.petspot.controller.login;
 
-import br.com.petspot.model.dto.logindto.LoginDto;
-import br.com.petspot.model.dto.logindto.NewPasswordDto;
-import br.com.petspot.model.dto.logindto.RegisterUserDto;
-import br.com.petspot.model.dto.logindto.RequestEmailDto;
+import br.com.petspot.model.dto.logindto.*;
 import br.com.petspot.model.messages.login.MessageWithEmail;
 import br.com.petspot.service.login.LoginService;
 import jakarta.validation.Valid;
@@ -41,5 +38,13 @@ public class LoginController {
     public ResponseEntity<MessageWithEmail> newPassword(@RequestBody @Valid NewPasswordDto newPasswordDto){
         return loginService.recoverPassword(newPasswordDto);
     }
+
+    @PostMapping("/forms-contact")
+    public ResponseEntity<MessageWithEmail> logout(@RequestBody @Valid FormsContactDto formsContactDto){
+
+        return loginService.formsContact(formsContactDto);
+    }
+
+
 
 }
