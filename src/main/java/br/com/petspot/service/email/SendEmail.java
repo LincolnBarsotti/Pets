@@ -66,6 +66,21 @@ public class SendEmail {
         mailSender.send(message);
     }
 
+    @Async
+    public void sendNewPasswordEmail(String to, String nameUser){
+        MimeMessage message = mailSender.createMimeMessage();
+
+        try {
+            message.setRecipients(MimeMessage.RecipientType.TO, to);
+            message.setSubject("Bem-vindo ao PetSpot");
+            message.setContent(getRegisterBodyMessage().replace("${nameUser}", nameUser), "text/html; charset=utf-8");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        mailSender.send(message);
+    }
+
     private String getRegisterBodyMessage() {
         try {
             return Files.readString(Paths.get("src/main/resources/template/RegisterMail.html"), StandardCharsets.UTF_8);
