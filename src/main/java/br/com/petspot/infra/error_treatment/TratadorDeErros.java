@@ -1,6 +1,8 @@
 package br.com.petspot.infra.error_treatment;
 
+import br.com.petspot.model.messages.login.MessageWithEmail;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,7 +15,10 @@ public class TratadorDeErros {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity tratarErro404() {
-        return ResponseEntity.notFound().build();
+
+        // PRECISA ALTERAAR !!!!!!
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageWithEmail(""));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

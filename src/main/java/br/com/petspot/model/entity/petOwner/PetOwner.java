@@ -1,6 +1,6 @@
 package br.com.petspot.model.entity.petOwner;
 
-import br.com.petspot.model.dto.petowner.registerdto.RegisterDto;
+import br.com.petspot.model.dto.logindto.RegisterUserDto;
 import br.com.petspot.model.entity.Pet.Pet;
 import br.com.petspot.model.entity.login.Login;
 import jakarta.persistence.*;
@@ -38,9 +38,9 @@ public class PetOwner {
     inverseJoinColumns = @JoinColumn(name = "pet_id"))
     private Set<Pet> pet = new HashSet<>();
 
-    public PetOwner(RegisterDto registerDto) {
-        this.name = registerDto.nome();
-        this.lastName = registerDto.sobrenome();
-        this.birthday = registerDto.getDate();
+    public PetOwner(RegisterUserDto registerUserDto) {
+        this.name = registerUserDto.nome();
+        this.lastName = registerUserDto.sobrenome();
+        this.birthday = registerUserDto.getDate();
     }
 }

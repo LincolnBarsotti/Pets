@@ -1,4 +1,4 @@
-package br.com.petspot.model.dto.petdto.messages;
+package br.com.petspot.model.messages.pet;
 
 import lombok.Data;
 import org.springframework.data.domain.Page;
