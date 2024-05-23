@@ -11,7 +11,6 @@ public record LoginDto(
         @Email
         String email,
         @NotBlank
-        @Max(value = 23, message = "Senha precisa ter no máximo 23 caracteres")
         String senha
 ) {
 }
