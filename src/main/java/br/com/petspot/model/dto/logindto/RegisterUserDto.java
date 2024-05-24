@@ -9,11 +9,14 @@ import java.util.Date;
 public record RegisterUserDto(
         @Email
         String email,
-        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+{}|;':\"/.,<>?])[a-zA-Z0-9~!@#$%^&*()_+{}|;':\"/.,<>?]+$")
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+{}|;':\"/.,<>?])[a-zA-Z0-9~!@#$%^&*()_+{}|;':\"/.,<>?]+$"
+        , message = "Senha fora de padrão!")
         String senha,
         @NotBlank
+        @Size(min = 2, max = 18)
         String nome,
         @NotBlank
+        @Size(min = 2, max = 18)
         String sobrenome,
         @NotBlank
         String dataDeNascimento

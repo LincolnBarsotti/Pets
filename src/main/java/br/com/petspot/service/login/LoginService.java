@@ -21,14 +21,14 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-//    @Autowired
-//    private SendEmail sendEmail;
+    @Autowired
+    private SendEmail sendEmail;
 
     public ResponseEntity<MessageWithEmail> signIn(LoginDto loginDto){
         Login auth = loginRepository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
 
         if (auth != null){
-//            sendEmail.sendLoginEmail(auth.getEmail(), auth.getPetOwner().getName());
+            sendEmail.sendLoginEmail(auth.getEmail(), auth.getPetOwner().getName());
             return ResponseEntity.ok(new MessageWithEmail(loginDto.email(), "Usuário logado"));
         }
 
@@ -50,14 +50,14 @@ public class LoginService {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
-//        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
+        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
 
         return ResponseEntity.created(uri).body(new MessageWithEmail(login.getEmail(), "Registro concluído"));
     }
 
     public ResponseEntity<MessageWithEmail> requestNewPassword(String email){
         if (loginRepository.existsLoginByEmail(email)){
-          //  sendEmail.sendRequestNewPasswordEmail(email);
+            sendEmail.sendRequestNewPasswordEmail(email);
             return ResponseEntity.ok(new MessageWithEmail(email,"Email enviado com sucesso"));
         }
 
@@ -80,7 +80,7 @@ public class LoginService {
 
     public ResponseEntity<MessageWithEmail> formsContact(FormsContactDto formsContactDto) {
 
-      //  sendEmail.contactUs(formsContactDto);
+        sendEmail.contactUs(formsContactDto);
         return ResponseEntity.ok(new MessageWithEmail("Email enviado."));
     }
 }
