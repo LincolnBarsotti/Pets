@@ -8,7 +8,7 @@ public record SavedDatasPetDto(
         String id,
         String nome,
         int genero,
-        Date idade
+        String idade
 ) {
     public SavedDatasPetDto(Pet pet){
         this(pet.getId(), pet.getPetName(), pet.getGender(), pet.getPetBirthday());
