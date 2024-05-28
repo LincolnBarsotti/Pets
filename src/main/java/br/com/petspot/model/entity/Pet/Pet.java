@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,5 +58,10 @@ public class Pet {
         if (petDto.raca() != null) {
             this.race = petDto.raca();
         }
+    }
+
+    public String getPetBirthday() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        return dateFormat.format(this.petBirthday);
     }
 }
