@@ -1,9 +1,7 @@
 package br.com.petspot.service.login;
 
-import br.com.petspot.model.dto.logindto.FormsContactDto;
-import br.com.petspot.model.dto.logindto.LoginDto;
-import br.com.petspot.model.dto.logindto.NewPasswordDto;
-import br.com.petspot.model.dto.logindto.RegisterUserDto;
+import br.com.petspot.infra.security.TokenService;
+import br.com.petspot.model.dto.logindto.*;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.model.messages.login.MessageWithEmail;
@@ -12,6 +10,9 @@ import br.com.petspot.service.email.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,27 +22,37 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-//    @Autowired
-//    private SendEmail sendEmail;
+    @Autowired
+    private SendEmail sendEmail;
 
-    public ResponseEntity<MessageWithEmail> signIn(LoginDto loginDto){
-        Login auth = loginRepository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
+    @Autowired
+    private TokenService tokenService;
 
-        if (auth != null){
-//            sendEmail.sendLoginEmail(auth.getEmail(), auth.getPetOwner().getName());
-            return ResponseEntity.ok(new MessageWithEmail(loginDto.email(), "Usuário logado"));
+    @Autowired
+    private AuthenticationManager manager;
+
+    public ResponseEntity<AuthTokenDto> signIn(LoginDto loginDto){
+        try {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
+            var authentication = manager.authenticate(authenticationToken);
+
+            var tokenJWT = tokenService.gerarToken((Login) authentication.getPrincipal());
+
+            return ResponseEntity.ok(new AuthTokenDto(tokenJWT, "Logado com sucesso"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthTokenDto(null, "Credenciais inválidas!"));
         }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageWithEmail("Credenciais inválidas!"));
     }
 
-    public ResponseEntity<MessageWithEmail> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AuthTokenDto> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
 
         if (loginRepository.existsLoginByEmail(registerUserDto.email())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageWithEmail("Outra conta está usando o mesmo email."));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthTokenDto("Outra conta está usando o mesmo email."));
         }
 
-        Login login = new Login(registerUserDto);
+        String encryptPassword = new BCryptPasswordEncoder().encode(registerUserDto.senha());
+
+        Login login = new Login(registerUserDto, encryptPassword);
         PetOwner petOwner = new PetOwner(registerUserDto);
 
         login.setPetOwner(petOwner);
@@ -50,14 +61,16 @@ public class LoginService {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
+        var tokenJWT = tokenService.gerarToken(login);
+
 //        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
 
-        return ResponseEntity.created(uri).body(new MessageWithEmail(login.getEmail(), "Registro concluído"));
+        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT,"Registro concluído"));
     }
 
     public ResponseEntity<MessageWithEmail> requestNewPassword(String email){
         if (loginRepository.existsLoginByEmail(email)){
-          //  sendEmail.sendRequestNewPasswordEmail(email);
+            sendEmail.sendRequestNewPasswordEmail(email);
             return ResponseEntity.ok(new MessageWithEmail(email,"Email enviado com sucesso"));
         }
 
@@ -80,7 +93,7 @@ public class LoginService {
 
     public ResponseEntity<MessageWithEmail> formsContact(FormsContactDto formsContactDto) {
 
-      //  sendEmail.contactUs(formsContactDto);
+        sendEmail.contactUs(formsContactDto);
         return ResponseEntity.ok(new MessageWithEmail("Email enviado."));
     }
 }

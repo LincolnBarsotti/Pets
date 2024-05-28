@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,5 +43,10 @@ public class PetOwner {
         this.name = registerUserDto.nome();
         this.lastName = registerUserDto.sobrenome();
         this.birthday = registerUserDto.getDate();
+    }
+
+    public String getBirthday() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        return dateFormat.format(birthday);
     }
 }

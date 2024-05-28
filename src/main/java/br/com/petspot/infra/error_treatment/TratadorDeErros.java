@@ -18,16 +18,27 @@ public class TratadorDeErros {
 
         // PRECISA ALTERAAR !!!!!!
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageWithEmail(""));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
-        var erros = ex.getFieldErrors();
-        return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
+        ;
+        StringBuilder campos = new StringBuilder();
+        StringBuilder mensagens = new StringBuilder();
+
+        for (FieldError fieldError : ex.getFieldErrors()) {
+            campos.append(fieldError.getField()).append(", ");
+            mensagens.append(fieldError.getDefaultMessage()).append(", ");
+        }
+
+        String campo = mensagens.toString().substring(0, mensagens.length() - 2);
+        String message = campos.toString().substring(0, campos.length() - 2);
+
+        return ResponseEntity.badRequest().body(new DadosErroValidacao(message, campo));
     }
 
-    private record DadosErroValidacao(String campo, String mensagem) {
+    private record DadosErroValidacao(String campo, String message) {
         public DadosErroValidacao(FieldError erro) {
             this(erro.getField(), erro.getDefaultMessage());
         }
