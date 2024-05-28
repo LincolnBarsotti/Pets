@@ -1,9 +1,7 @@
 package br.com.petspot.service.login;
 
-import br.com.petspot.model.dto.logindto.FormsContactDto;
-import br.com.petspot.model.dto.logindto.LoginDto;
-import br.com.petspot.model.dto.logindto.NewPasswordDto;
-import br.com.petspot.model.dto.logindto.RegisterUserDto;
+import br.com.petspot.infra.security.TokenService;
+import br.com.petspot.model.dto.logindto.*;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.model.messages.login.MessageWithEmail;
@@ -12,6 +10,8 @@ import br.com.petspot.service.email.SendEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,15 +24,23 @@ public class LoginService {
     @Autowired
     private SendEmail sendEmail;
 
-    public ResponseEntity<MessageWithEmail> signIn(LoginDto loginDto){
-        Login auth = loginRepository.findByEmailAndPasswordLogin(loginDto.email(), loginDto.senha());
+    @Autowired
+    private TokenService tokenService;
 
-        if (auth != null){
-            sendEmail.sendLoginEmail(auth.getEmail(), auth.getPetOwner().getName());
-            return ResponseEntity.ok(new MessageWithEmail(loginDto.email(), "Usuário logado"));
+    @Autowired
+    private AuthenticationManager manager;
+
+    public ResponseEntity<AuthTokenDto> signIn(LoginDto loginDto){
+        try {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
+            var authentication = manager.authenticate(authenticationToken);
+
+            var tokenJWT = tokenService.gerarToken((Login) authentication.getPrincipal());
+
+            return ResponseEntity.ok(new AuthTokenDto(tokenJWT, "Logado com sucesso"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthTokenDto(null, "Credenciais inválidas!"));
         }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageWithEmail("Credenciais inválidas!"));
     }
 
     public ResponseEntity<MessageWithEmail> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){

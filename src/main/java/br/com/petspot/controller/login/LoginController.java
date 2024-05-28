@@ -24,7 +24,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MessageWithEmail> signIn(@RequestBody @Valid LoginDto loginDto) {
+    public ResponseEntity<AuthTokenDto> signIn(@RequestBody @Valid LoginDto loginDto) {
         return loginService.signIn(loginDto);
     }
 
