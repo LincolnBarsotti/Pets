@@ -19,7 +19,7 @@ public class LoginController {
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity<MessageWithEmail> register(@RequestBody @Validated RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AuthTokenDto> register(@RequestBody @Validated RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
         return loginService.register(registerUserDto, uriBuilder);
     }
 

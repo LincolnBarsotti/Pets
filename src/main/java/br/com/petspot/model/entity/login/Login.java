@@ -41,9 +41,9 @@ public class Login implements UserDetails {
     @JoinColumn(name = "pet_owner_id")
     private PetOwner petOwner;
 
-    public Login(RegisterUserDto registerUserDto) {
+    public Login(RegisterUserDto registerUserDto, String passwordLogin) {
         this.email = registerUserDto.email();
-        this.passwordLogin = registerUserDto.senha();
+        this.passwordLogin = passwordLogin;
         this.typeOfUser = TypesUsers.PETOWNER.name();
     }
 

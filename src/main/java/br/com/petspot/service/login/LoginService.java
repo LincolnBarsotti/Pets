@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -43,13 +44,15 @@ public class LoginService {
         }
     }
 
-    public ResponseEntity<MessageWithEmail> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AuthTokenDto> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
 
         if (loginRepository.existsLoginByEmail(registerUserDto.email())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageWithEmail("Outra conta está usando o mesmo email."));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthTokenDto("Outra conta está usando o mesmo email."));
         }
 
-        Login login = new Login(registerUserDto);
+        String encryptPassword = new BCryptPasswordEncoder().encode(registerUserDto.senha());
+
+        Login login = new Login(registerUserDto, encryptPassword);
         PetOwner petOwner = new PetOwner(registerUserDto);
 
         login.setPetOwner(petOwner);
@@ -58,9 +61,11 @@ public class LoginService {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
-        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
+        var tokenJWT = tokenService.gerarToken(login);
 
-        return ResponseEntity.created(uri).body(new MessageWithEmail(login.getEmail(), "Registro concluído"));
+//        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
+
+        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT,"Registro concluído"));
     }
 
     public ResponseEntity<MessageWithEmail> requestNewPassword(String email){
