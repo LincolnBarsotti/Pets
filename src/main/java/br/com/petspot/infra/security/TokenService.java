@@ -18,17 +18,17 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    private final Algorithm algoritimo = Algorithm.HMAC256(secret);
 
     public String tokenGenerate(Login usuario){
         try{
+            Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Pet Spot")
                     .withIssuedAt(dateNow())
                     .withSubject(usuario.getEmail())
                     .withClaim("userId", usuario.getId())
                     .withExpiresAt(dateExpiration())
-                    .sign(this.algoritimo);
+                    .sign(algoritimo);
         }catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt", exception);
         }
@@ -37,7 +37,8 @@ public class TokenService {
     public String getSubject(String tokenJWT){
 
         try {
-            return JWT.require(this.algoritimo)
+            Algorithm algoritimo = Algorithm.HMAC256(secret);
+            return JWT.require(algoritimo)
                     .withIssuer("API Pet Spot")
                     .build()
                     .verify(tokenJWT)
