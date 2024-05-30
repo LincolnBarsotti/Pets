@@ -11,6 +11,6 @@ public record LoginDto(
         @Email
         String email,
         @NotBlank
-        String senha
+        String password
 ) {
 }

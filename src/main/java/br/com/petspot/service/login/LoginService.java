@@ -33,7 +33,7 @@ public class LoginService {
 
     public ResponseEntity<AuthTokenDto> signIn(LoginDto loginDto){
         try {
-            var authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
+            var authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.password());
             var authentication = manager.authenticate(authenticationToken);
 
             var tokenJWT = tokenService.tokenGenerate((Login) authentication.getPrincipal());
@@ -50,7 +50,7 @@ public class LoginService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthTokenDto("Outra conta está usando o mesmo email."));
         }
 
-        String encryptPassword = new BCryptPasswordEncoder().encode(registerUserDto.senha());
+        String encryptPassword = new BCryptPasswordEncoder().encode(registerUserDto.password());
 
         Login login = new Login(registerUserDto, encryptPassword);
         PetOwner petOwner = new PetOwner(registerUserDto);

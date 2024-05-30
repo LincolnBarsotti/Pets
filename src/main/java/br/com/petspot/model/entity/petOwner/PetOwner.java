@@ -40,8 +40,8 @@ public class PetOwner {
     private Set<Pet> pet = new HashSet<>();
 
     public PetOwner(RegisterUserDto registerUserDto) {
-        this.name = registerUserDto.nome();
-        this.lastName = registerUserDto.sobrenome();
+        this.name = registerUserDto.name();
+        this.lastName = registerUserDto.surname();
         this.birthday = registerUserDto.getDate();
     }
 
