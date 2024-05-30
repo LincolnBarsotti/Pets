@@ -36,7 +36,7 @@ public class LoginService {
             var authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
             var authentication = manager.authenticate(authenticationToken);
 
-            var tokenJWT = tokenService.gerarToken((Login) authentication.getPrincipal());
+            var tokenJWT = tokenService.tokenGenerate((Login) authentication.getPrincipal());
 
             return ResponseEntity.ok(new AuthTokenDto(tokenJWT, "Logado com sucesso"));
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class LoginService {
 
         var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
 
-        var tokenJWT = tokenService.gerarToken(login);
+        var tokenJWT = tokenService.tokenGenerate(login);
 
 //        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
 

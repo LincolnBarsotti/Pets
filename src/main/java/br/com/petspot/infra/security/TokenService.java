@@ -18,14 +18,17 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String gerarToken(Login usuario){
+    private final Algorithm algoritimo = Algorithm.HMAC256(secret);
+
+    public String tokenGenerate(Login usuario){
         try{
-            var algoritimo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Pet Spot")
+                    .withIssuedAt(dateNow())
                     .withSubject(usuario.getEmail())
-                    .withExpiresAt(dataExpiracao())
-                    .sign(algoritimo);
+                    .withClaim("userId", usuario.getId())
+                    .withExpiresAt(dateExpiration())
+                    .sign(this.algoritimo);
         }catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt", exception);
         }
@@ -34,8 +37,7 @@ public class TokenService {
     public String getSubject(String tokenJWT){
 
         try {
-            var algoritimo = Algorithm.HMAC256(secret);
-            return JWT.require(algoritimo)
+            return JWT.require(this.algoritimo)
                     .withIssuer("API Pet Spot")
                     .build()
                     .verify(tokenJWT)
@@ -46,8 +48,11 @@ public class TokenService {
 
     }
 
-    private Instant dataExpiracao() {
+    private Instant dateExpiration() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
+    }
+    private Instant dateNow() {
+        return LocalDateTime.now().toInstant(ZoneOffset.of("-03:00"));
     }
 
 }
