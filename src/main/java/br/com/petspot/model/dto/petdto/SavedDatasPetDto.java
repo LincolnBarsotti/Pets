@@ -6,9 +6,9 @@ import java.util.Date;
 
 public record SavedDatasPetDto(
         String id,
-        String nome,
-        int genero,
-        String idade
+        String name,
+        int gender,
+        String age
 ) {
     public SavedDatasPetDto(Pet pet){
         this(pet.getId(), pet.getPetName(), pet.getGender(), pet.getPetBirthday());
