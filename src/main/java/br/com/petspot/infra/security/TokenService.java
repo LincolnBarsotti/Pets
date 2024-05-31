@@ -24,10 +24,11 @@ public class TokenService {
             Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Pet Spot")
-                    .withIssuedAt(dateNow())
                     .withSubject(usuario.getEmail())
-                    .withClaim("userId", usuario.getId())
+                    .withIssuedAt(dateNow())
                     .withExpiresAt(dateExpiration())
+                    .withClaim("userId", usuario.getPetOwner().getId())
+
                     .sign(algoritimo);
         }catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt", exception);

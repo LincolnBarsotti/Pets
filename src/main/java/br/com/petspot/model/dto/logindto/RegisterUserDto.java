@@ -19,7 +19,6 @@ public record RegisterUserDto(
         @Size(min = 2, max = 18)
         String surname,
         @NotBlank
-                @Size(min = 9, max = 9, message = "Date must contain 9 characters")
         String birthday
 ) {
 
