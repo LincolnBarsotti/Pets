@@ -42,21 +42,21 @@ public class Pet {
     private Set<PetOwner> petOwners = new HashSet<>();
 
     public Pet(RegisterPetDto petDto) {
-        this.petName = petDto.nome();
+        this.petName = petDto.name();
 
-        this.specie = petDto.especie();
+        this.specie = petDto.species();
 
-        if (petDto.genero() != null) {
-            this.gender = petDto.genero();
+        if (petDto.gender() != null) {
+            this.gender = petDto.gender();
         }
-        if (petDto.dataDeNascimento() != null) {
+        if (petDto.birthday() != null) {
             this.petBirthday = petDto.getDate();
         }
-        if (petDto.peso() != null) {
-            this.petWeight = petDto.peso();
+        if (petDto.weight() != null) {
+            this.petWeight = petDto.weight();
         }
-        if (petDto.raca() != null) {
-            this.race = petDto.raca();
+        if (petDto.race() != null) {
+            this.race = petDto.race();
         }
     }
 

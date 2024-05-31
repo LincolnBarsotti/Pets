@@ -11,7 +11,7 @@ public record RegisterPetDto(
         String name,
         String species,
         Integer gender,
-        String raca,
+        String race,
         String weight,
         String birthday
 ) {
