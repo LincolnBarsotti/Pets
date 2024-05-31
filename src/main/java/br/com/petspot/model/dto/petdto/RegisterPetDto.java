@@ -8,18 +8,18 @@ import java.util.Date;
 
 public record RegisterPetDto(
         @NotBlank
-        String nome,
-        String especie,
-        Integer genero,
+        String name,
+        String species,
+        Integer gender,
         String raca,
-        String peso,
-        String dataDeNascimento
+        String weight,
+        String birthday
 ) {
         public Date getDate() {
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
                 try {
-                        return format.parse(dataDeNascimento);
+                        return format.parse(birthday);
                 } catch (ParseException e) {
                         throw new RuntimeException(e);
                 }
