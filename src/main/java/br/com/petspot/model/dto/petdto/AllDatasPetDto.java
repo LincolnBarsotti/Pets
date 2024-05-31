@@ -9,12 +9,12 @@ import java.util.Date;
 public record
 AllDatasPetDto(
         String id,
-        String nome,
-        String peso,
-        String nascimento,
-        String especie,
-        String raca,
-        Integer genero
+        String name,
+        String weight,
+        String birthday,
+        String species,
+        String race,
+        Integer gender
 
 ) {
     public AllDatasPetDto(Pet pet){
