@@ -1,4 +1,4 @@
-package br.com.petspot.infra.security;
+package br.com.petspot.infra.security.token;
 
 import br.com.petspot.model.entity.login.Login;
 import com.auth0.jwt.JWT;
@@ -18,7 +18,6 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-
     public String tokenGenerate(Login usuario){
         try{
             Algorithm algoritimo = Algorithm.HMAC256(secret);
@@ -36,7 +35,6 @@ public class TokenService {
     }
 
     public String getSubject(String tokenJWT){
-
         try {
             Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.require(algoritimo)
@@ -47,8 +45,8 @@ public class TokenService {
         } catch (JWTVerificationException exception){
             throw new RuntimeException("JWT inválido ou expirado");
         }
-
     }
+
 
     private Instant dateExpiration() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));

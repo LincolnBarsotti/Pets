@@ -1,6 +1,6 @@
 package br.com.petspot.service.login;
 
-import br.com.petspot.infra.security.TokenService;
+import br.com.petspot.infra.security.token.TokenService;
 import br.com.petspot.model.dto.logindto.*;
 import br.com.petspot.model.entity.login.Login;
 import br.com.petspot.model.entity.petOwner.PetOwner;

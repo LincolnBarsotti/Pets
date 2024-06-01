@@ -1,4 +1,4 @@
-package br.com.petspot.controller.login;
+package br.com.petspot.infra.security;
 
 import br.com.petspot.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
