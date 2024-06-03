@@ -38,9 +38,11 @@ public class LoginService {
 
             var tokenJWT = tokenService.tokenGenerate((Login) authentication.getPrincipal());
 
-            return ResponseEntity.ok(new AuthTokenDto(tokenJWT, "Logado com sucesso"));
+            return ResponseEntity.ok(new AuthTokenDto(tokenJWT,
+                    ((Login) authentication.getPrincipal()).getPetOwner().getId(),
+                    "Logado com sucesso"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthTokenDto(null, "Credenciais inválidas!"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthTokenDto("Credenciais inválidas!"));
         }
     }
 
@@ -65,7 +67,7 @@ public class LoginService {
 
 //        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
 
-        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT,"Registro concluído"));
+        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT, petOwner.getId(), "Registro concluído"));
     }
 
     public ResponseEntity<MessageWithEmail> requestNewPassword(String email){
