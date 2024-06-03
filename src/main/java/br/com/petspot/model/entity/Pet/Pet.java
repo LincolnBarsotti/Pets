@@ -44,10 +44,10 @@ public class Pet {
     public Pet(RegisterPetDto petDto) {
         this.petName = petDto.name();
 
-        this.specie = petDto.species();
+        this.specie = petDto.species().name();
 
         if (petDto.gender() != null) {
-            this.gender = petDto.gender();
+            this.gender = petDto.gender().getValue();
         }
         if (petDto.birthday() != null) {
             this.petBirthday = petDto.getDate();

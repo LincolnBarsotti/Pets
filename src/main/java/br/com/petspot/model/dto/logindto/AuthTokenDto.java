@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public record AuthTokenDto(String token, String userId, String message) {
     public AuthTokenDto(String message){
-        this(null, message, null);
+        this(null, null, message);
     }
 
     public AuthTokenDto(String token, String userId, String message){

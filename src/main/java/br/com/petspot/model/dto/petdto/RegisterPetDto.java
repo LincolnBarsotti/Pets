@@ -9,8 +9,8 @@ import java.util.Date;
 public record RegisterPetDto(
         @NotBlank
         String name,
-        String species,
-        Integer gender,
+        SpeciesEnum species,
+        GenderEnum gender,
         String race,
         String weight,
         String birthday
