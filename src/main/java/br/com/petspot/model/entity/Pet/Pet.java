@@ -61,7 +61,7 @@ public class Pet {
     }
 
     public String getPetBirthday() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
         return dateFormat.format(this.petBirthday);
     }
 
