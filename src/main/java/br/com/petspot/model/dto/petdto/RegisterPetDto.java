@@ -13,8 +13,6 @@ public record RegisterPetDto(
         @NotBlank
         String name,
         SpeciesEnum species,
-        @Max(value = 2)
-        @Min(value = 1)
         GenderEnum gender,
         String race,
         String weight,
