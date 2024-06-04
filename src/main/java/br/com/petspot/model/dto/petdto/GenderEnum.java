@@ -1,7 +1,7 @@
 package br.com.petspot.model.dto.petdto;
 
 public enum GenderEnum {
-    MALE(1),    FEMALE(2);
+    UNKNOWN(0),  MALE(1),  FEMALE(2);
 
     private final int value;
 

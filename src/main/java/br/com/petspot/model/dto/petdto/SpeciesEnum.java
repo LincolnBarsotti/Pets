@@ -1,11 +1,11 @@
 package br.com.petspot.model.dto.petdto;
 
 public enum SpeciesEnum {
-    DOG(1), CAT(2);
+    UNKNOWN(0), DOG(1), CAT(2);
 
     private final int value;
 
-    SpeciesEnum(int value){
+    SpeciesEnum(final int value){
         this.value = value;
     }
 

@@ -1,6 +1,9 @@
 package br.com.petspot.model.dto.petdto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +13,8 @@ public record RegisterPetDto(
         @NotBlank
         String name,
         SpeciesEnum species,
+        @Max(value = 2)
+        @Min(value = 1)
         GenderEnum gender,
         String race,
         String weight,

@@ -10,6 +10,7 @@ import br.com.petspot.model.entity.Pet.Pet;
 import br.com.petspot.model.entity.petOwner.PetOwner;
 import br.com.petspot.repository.PetOwnerRepository;
 import br.com.petspot.repository.PetRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class PetService {
         return ResponseEntity.ok(new MessageAllDatasPetDto(new AllDatasPetDto(pet)));
     }
 
-    public ResponseEntity<MessageRegisterPetDto> registerPet( RegisterPetDto petDto, String tutor, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<MessageRegisterPetDto> registerPet(@Valid RegisterPetDto petDto, String tutor, UriComponentsBuilder uriBuilder){
 
         PetOwner owner =  ownerRepository.getReferenceById(tutor);
 

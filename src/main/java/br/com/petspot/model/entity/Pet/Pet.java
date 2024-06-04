@@ -47,7 +47,7 @@ public class Pet {
         this.specie = petDto.species().name();
 
         if (petDto.gender() != null) {
-            this.gender = petDto.gender().getValue();
+            this.gender = petDto.gender();
         }
         if (petDto.birthday() != null) {
             this.petBirthday = petDto.getDate();
