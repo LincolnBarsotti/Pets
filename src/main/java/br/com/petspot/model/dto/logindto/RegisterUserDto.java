@@ -10,23 +10,23 @@ public record RegisterUserDto(
         @Email
         String email,
         @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+{}|;':\"/.,<>?])[a-zA-Z0-9~!@#$%^&*()_+{}|;':\"/.,<>?]+$"
-        , message = "Senha fora de padrão!")
-        String senha,
+        , message = "Password without pattern!")
+        String password,
         @NotBlank
         @Size(min = 2, max = 18)
-        String nome,
+        String name,
         @NotBlank
         @Size(min = 2, max = 18)
-        String sobrenome,
+        String surname,
         @NotBlank
-        String dataDeNascimento
+        String birthday
 ) {
 
      public Date getDate() {
          SimpleDateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd");  // Input format
          SimpleDateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");  // Output format
             try {
-                Date date = inputFormatter.parse(dataDeNascimento);
+                Date date = inputFormatter.parse(birthday);
                 return outputFormatter.parse(outputFormatter.format(date));
             } catch (ParseException e) {
                 throw new RuntimeException(e);

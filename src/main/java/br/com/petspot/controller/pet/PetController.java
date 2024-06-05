@@ -5,6 +5,7 @@ import br.com.petspot.model.messages.pet.MessageAllDatasPetDto;
 import br.com.petspot.model.messages.pet.MessageListPageablePetDto;
 import br.com.petspot.model.messages.pet.MessageRegisterPetDto;
 import br.com.petspot.service.pet.PetService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,7 +22,7 @@ public class PetController {
     private PetService petService;
 
     @GetMapping("/findAll")
-    public ResponseEntity<MessageListPageablePetDto> listPetByOwner(@PathVariable(name = "id") String tutor, @PageableDefault(size = 2, sort = {"petName"}) Pageable page){
+    public ResponseEntity<MessageListPageablePetDto> listPetByOwner(@PathVariable(name = "id") String tutor, @PageableDefault(size = 4, sort = {"petName"}) Pageable page){
         return petService.listPetByOwner(tutor, page);
     }
 
@@ -32,7 +33,7 @@ public class PetController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<MessageRegisterPetDto> registerPet(@RequestBody RegisterPetDto petDto, @PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<MessageRegisterPetDto> registerPet(@RequestBody @Valid RegisterPetDto petDto, @PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
         return petService.registerPet(petDto,tutor,uriBuilder);
     }
 

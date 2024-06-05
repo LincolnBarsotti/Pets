@@ -1,4 +1,4 @@
-package br.com.petspot.infra.security;
+package br.com.petspot.infra.security.token;
 
 import br.com.petspot.model.entity.login.Login;
 import com.auth0.jwt.JWT;
@@ -18,13 +18,16 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String gerarToken(Login usuario){
+    public String tokenGenerate(Login usuario){
         try{
-            var algoritimo = Algorithm.HMAC256(secret);
+            Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Pet Spot")
                     .withSubject(usuario.getEmail())
-                    .withExpiresAt(dataExpiracao())
+                    .withIssuedAt(dateNow())
+                    .withExpiresAt(dateExpiration())
+                    .withClaim("userId", usuario.getPetOwner().getId())
+
                     .sign(algoritimo);
         }catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt", exception);
@@ -32,9 +35,8 @@ public class TokenService {
     }
 
     public String getSubject(String tokenJWT){
-
         try {
-            var algoritimo = Algorithm.HMAC256(secret);
+            Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.require(algoritimo)
                     .withIssuer("API Pet Spot")
                     .build()
@@ -43,11 +45,14 @@ public class TokenService {
         } catch (JWTVerificationException exception){
             throw new RuntimeException("JWT inválido ou expirado");
         }
-
     }
 
-    private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
+
+    private Instant dateExpiration() {
+        return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
+    }
+    private Instant dateNow() {
+        return LocalDateTime.now().toInstant(ZoneOffset.of("-03:00"));
     }
 
 }
