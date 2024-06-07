@@ -22,7 +22,7 @@ public class PetController {
     private PetService petService;
 
     @GetMapping("/findAll")
-    public ResponseEntity<MessageListPageablePetDto> listPetByOwner(@PathVariable(name = "id") String tutor, @PageableDefault(size = 4, sort = {"petName"}) Pageable page){
+    public ResponseEntity<MessageListPageablePetDto> listPetByOwner(@PathVariable(name = "id") String tutor, @PageableDefault(size = 4, sort = {"petName", "specie"}) Pageable page){
         return petService.listPetByOwner(tutor, page);
     }
 
@@ -36,6 +36,5 @@ public class PetController {
     public ResponseEntity<MessageRegisterPetDto> registerPet(@RequestBody @Valid RegisterPetDto petDto, @PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
         return petService.registerPet(petDto,tutor,uriBuilder);
     }
-
 
 }
