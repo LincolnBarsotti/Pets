@@ -8,6 +8,11 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +34,7 @@ public class Pet {
 
     private String petWeight;
 
-    private Date petBirthday;
+    private LocalDate petBirthday;
 
     private String specie;
 
@@ -61,8 +66,13 @@ public class Pet {
     }
 
     public String getPetBirthday() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-        return dateFormat.format(this.petBirthday);
+        return petBirthday.toString();
+    }
+    public int getAgeInYears() {
+        if (this.petBirthday == null) {
+            return 0;
+        }
+        return Period.between(petBirthday, LocalDate.now()).getYears();
     }
 
 }

@@ -54,5 +54,8 @@ public class PetService {
         return ResponseEntity.created(uri).body(new MessageRegisterPetDto(new SavedDatasPetDto(pet)));
     }
 
+    private boolean verificationExistenceOfPetOwner(String tutor){
+        return ownerRepository.existsById(tutor);
+    }
 
 }
