@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public record RegisterPetDto(
@@ -18,13 +21,13 @@ public record RegisterPetDto(
         String weight,
         String birthday
 ) {
-        public Date getDate() {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        public LocalDate getDate() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
                 try {
-                        return format.parse(birthday);
-                } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                        return LocalDate.parse(birthday, formatter);
+                } catch (DateTimeParseException e) {
+                        throw new RuntimeException("Data de aniversário inválida: " + birthday, e);
                 }
         }
 }
