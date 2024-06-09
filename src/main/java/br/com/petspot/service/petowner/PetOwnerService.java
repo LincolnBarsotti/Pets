@@ -1,6 +1,8 @@
 package br.com.petspot.service.petowner;
 
+import br.com.petspot.model.dto.petdto.FeedPetDto;
 import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.messages.petowner.MessageFeed;
 import br.com.petspot.repository.PetOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,6 @@ public class PetOwnerService {
         if (tutor.getPet().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return null;
+        return ResponseEntity.ok(new MessageFeed(new FeedPetDto(tutor)));
     }
 }
