@@ -22,7 +22,7 @@ public record RegisterPetDto(
         String birthday
 ) {
         public LocalDate getDate() {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
                 try {
                         return LocalDate.parse(birthday, formatter);
