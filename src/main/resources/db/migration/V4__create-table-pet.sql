@@ -3,7 +3,7 @@ create table pet(
     pet_name VARCHAR(255) NOT NULL,
     pet_weight VARCHAR(60),
     pet_birthday DATE,
-    specie VARCHAR(255) NOT NULL,
+    specie VARCHAR(255),
     race VARCHAR(255),
     gender INTEGER
 );
