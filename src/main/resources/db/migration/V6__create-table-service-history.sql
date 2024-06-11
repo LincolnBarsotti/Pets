@@ -1,7 +1,14 @@
 create table service_history(
   service_id VARCHAR(36) PRIMARY KEY,
-  person_id VARCHAR(36) NOT NULL,
-    animal_id VARCHAR(36) NOT NULL,
-    update_history_date DATETIME NOT NULL,
-    service_name VARCHAR(80)
+    name_service VARCHAR(255)
 );
+
+create table pets_tutor_history_service(
+  id int AUTO_INCREMENT primary key,
+  pet_id VARCHAR(36),
+  tutor_id VARCHAR(36),
+  service_history_id VARCHAR(36),
+  FOREIGN KEY (pet_id) REFERENCES pet(id),
+  FOREIGN KEY (tutor_id) REFERENCES login(id),
+  FOREIGN KEY (service_history_id) REFERENCES service_history(service_id)
+)
