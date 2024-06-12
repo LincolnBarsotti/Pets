@@ -1,6 +1,7 @@
 create table service_history(
     service_id VARCHAR(36) PRIMARY KEY,
-    name_service VARCHAR(255)
+    name_service VARCHAR(255),
+    creation_date DATE
 );
 
 create table pets_tutor_history_service(
