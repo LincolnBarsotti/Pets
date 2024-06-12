@@ -1,25 +1,22 @@
-package br.com.petspot.service.petowner;
+package br.com.petspot.service.person;
 
 import br.com.petspot.model.dto.petdto.FeedPetDto;
-import br.com.petspot.model.entity.login.Login;
+import br.com.petspot.model.entity.tutors.Person;
 import br.com.petspot.model.messages.petowner.MessageFeed;
-import br.com.petspot.repository.LoginRepository;
-import br.com.petspot.repository.PetOwnerRepository;
+import br.com.petspot.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetOwnerService {
+public class PersonService {
 
     @Autowired
-    private PetOwnerRepository petOwnerRepository;
-    @Autowired
-    private LoginRepository loginRepository;
+    private PersonRepository personRepository;
 
     public ResponseEntity getFeed(String tutorID) {
-        Login tutor = loginRepository.getReferenceById(tutorID);
+        Person tutor = personRepository.getReferenceById(tutorID);
         if (tutor.getPet().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
