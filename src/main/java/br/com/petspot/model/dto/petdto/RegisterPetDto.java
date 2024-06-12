@@ -22,12 +22,12 @@ public record RegisterPetDto(
         String birthday
 ) {
         public LocalDate getDate() {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
                 try {
                         return LocalDate.parse(birthday, formatter);
                 } catch (DateTimeParseException e) {
-                        throw new RuntimeException("Data de aniversário inválida: " + birthday, e);
+                        throw new RuntimeException("Data inválida: " + birthday, e);
                 }
         }
 }
