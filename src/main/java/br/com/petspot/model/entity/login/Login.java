@@ -1,7 +1,9 @@
 package br.com.petspot.model.entity.login;
 
+import br.com.petspot.model.entity.tutors.Person;
 import br.com.petspot.model.dto.logindto.TypesUsers;
-import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.entity.Pet.Pet;
+import br.com.petspot.model.entity.tutors.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -12,7 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Lincoln
@@ -28,21 +32,21 @@ import java.util.List;
 public class Login implements UserDetails {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
-    private String id;
+    private String idLogin;
 
     @Email
-    private String email;
+    private String emailLogin;
 
     private String passwordLogin;
 
     private String typeOfUser;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pet_owner_id")
-    private PetOwner petOwner;
+    @OneToOne
+    @JoinColumn(name = "person_login_id")
+    private Person personLogin;
 
     public Login(RegisterUserDto registerUserDto, String passwordLogin) {
-        this.email = registerUserDto.email();
+        this.emailLogin = registerUserDto.email();
         this.passwordLogin = passwordLogin;
         this.typeOfUser = TypesUsers.PETOWNER.name();
     }
@@ -62,7 +66,7 @@ public class Login implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.emailLogin;
     }
 
     @Override

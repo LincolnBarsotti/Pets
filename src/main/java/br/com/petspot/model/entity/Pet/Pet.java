@@ -1,19 +1,14 @@
 package br.com.petspot.model.entity.Pet;
 
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
-import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.entity.login.Login;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.Year;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,7 +39,7 @@ public class Pet {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "pet")
-    private Set<PetOwner> petOwners = new HashSet<>();
+    private Set<Login> logins = new HashSet<>();
 
     public Pet(RegisterPetDto petDto) {
         this.petName = petDto.name();
