@@ -2,6 +2,7 @@ package br.com.petspot.model.entity.Pet;
 
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
 import br.com.petspot.model.entity.login.Login;
+import br.com.petspot.model.entity.tutors.Person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,7 @@ public class Pet {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "pet")
-    private Set<Login> logins = new HashSet<>();
+    private Set<Person> person = new HashSet<>();
 
     public Pet(RegisterPetDto petDto) {
         this.petName = petDto.name();
@@ -63,6 +64,7 @@ public class Pet {
     public String getPetBirthday() {
         return petBirthday.toString();
     }
+
     public int getAgeInYears() {
         if (this.petBirthday == null) {
             return 0;
@@ -71,3 +73,4 @@ public class Pet {
     }
 
 }
+// Vou mija e ja volto

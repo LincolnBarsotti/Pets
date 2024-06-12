@@ -2,8 +2,6 @@ package br.com.petspot.model.entity.login;
 
 import br.com.petspot.model.entity.tutors.Person;
 import br.com.petspot.model.dto.logindto.TypesUsers;
-import br.com.petspot.model.entity.Pet.Pet;
-import br.com.petspot.model.entity.tutors.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -14,9 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Lincoln
@@ -26,7 +22,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id", "email"})
+@EqualsAndHashCode(of = {"idLogin"})
 @Entity(name = "Login")
 @Table(name = "login")
 public class Login implements UserDetails {
@@ -41,7 +37,7 @@ public class Login implements UserDetails {
 
     private String typeOfUser;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_login_id")
     private Person personLogin;
 
