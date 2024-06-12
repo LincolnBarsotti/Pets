@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,7 +18,7 @@ public class LoginController {
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity<AuthTokenDto> register(@RequestBody @Validated RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AuthTokenDto> register(@RequestBody @Valid RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
         return loginService.register(registerUserDto, uriBuilder);
     }
 

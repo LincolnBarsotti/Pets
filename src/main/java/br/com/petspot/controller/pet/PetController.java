@@ -28,7 +28,7 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public ResponseEntity<MessageAllDatasPetDto> specifcDataOfPetByID(@PathVariable(name = "petId") String param){
-        return petService.specifcDataOfPetByID(param);
+        return petService.specificDataOfPetByID(param);
     }
 
     @PostMapping
