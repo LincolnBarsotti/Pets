@@ -1,13 +1,14 @@
 package br.com.petspot.model.dto.petdto;
 
-import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.entity.login.Login;
+import br.com.petspot.model.entity.tutors.Person;
 
 
 public class FeedPetDto extends PetSumaryDTO{
 
-    private String ownerName;
+    private String tutor;
 
-    public FeedPetDto(PetOwner petOwner){
-       this.ownerName = petOwner.getName();
+    public FeedPetDto(Person person){
+       this.tutor = person.getNamePerson();
     }
 }

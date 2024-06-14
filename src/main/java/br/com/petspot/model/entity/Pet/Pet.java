@@ -1,19 +1,15 @@
 package br.com.petspot.model.entity.Pet;
 
 import br.com.petspot.model.dto.petdto.RegisterPetDto;
-import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.entity.login.Login;
+import br.com.petspot.model.entity.tutors.Person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.Year;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,7 +40,7 @@ public class Pet {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "pet")
-    private Set<PetOwner> petOwners = new HashSet<>();
+    private Set<Person> person = new HashSet<>();
 
     public Pet(RegisterPetDto petDto) {
         this.petName = petDto.name();
@@ -68,6 +64,7 @@ public class Pet {
     public String getPetBirthday() {
         return petBirthday.toString();
     }
+
     public int getAgeInYears() {
         if (this.petBirthday == null) {
             return 0;
@@ -76,3 +73,4 @@ public class Pet {
     }
 
 }
+// Vou mija e ja volto
