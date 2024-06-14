@@ -3,7 +3,7 @@ package br.com.petspot.service.login;
 import br.com.petspot.infra.security.token.TokenService;
 import br.com.petspot.model.dto.logindto.*;
 import br.com.petspot.model.entity.login.Login;
-import br.com.petspot.model.entity.petOwner.PetOwner;
+import br.com.petspot.model.entity.tutors.Person;
 import br.com.petspot.model.messages.login.MessageWithEmail;
 import br.com.petspot.repository.LoginRepository;
 import br.com.petspot.service.email.SendEmail;
@@ -39,7 +39,7 @@ public class LoginService {
             var tokenJWT = tokenService.tokenGenerate((Login) authentication.getPrincipal());
 
             return ResponseEntity.ok(new AuthTokenDto(tokenJWT,
-                    ((Login) authentication.getPrincipal()).getPetOwner().getId(),
+                    ((Login) authentication.getPrincipal()).getPersonLogin().getIdPerson(),
                     "Logado com sucesso"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthTokenDto("Credenciais inválidas!"));
@@ -48,30 +48,30 @@ public class LoginService {
 
     public ResponseEntity<AuthTokenDto> register(RegisterUserDto registerUserDto, UriComponentsBuilder uriBuilder){
 
-        if (loginRepository.existsLoginByEmail(registerUserDto.email())){
+        if (loginRepository.existsLoginByEmailLogin(registerUserDto.email())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new AuthTokenDto("Outra conta está usando o mesmo email."));
         }
 
         String encryptPassword = new BCryptPasswordEncoder().encode(registerUserDto.password());
 
         Login login = new Login(registerUserDto, encryptPassword);
-        PetOwner petOwner = new PetOwner(registerUserDto);
+        Person tutor = new Person(registerUserDto);
 
-        login.setPetOwner(petOwner);
+        login.setPersonLogin(tutor);
 
         loginRepository.save(login);
 
-        var uri = uriBuilder.path("/profile/{id}").buildAndExpand(login.getId()).toUri();
+        var uri = uriBuilder.path("/profile/{id}").buildAndExpand(tutor.getIdPerson()).toUri();
 
         var tokenJWT = tokenService.tokenGenerate(login);
 
-//        sendEmail.sendRegisterEmail(login.getEmail(), petOwner.getName());
+//        sendEmail.sendRegisterEmail(login.getEmail(), tutor.getName());
 
-        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT, petOwner.getId(), "Registro concluído"));
+        return ResponseEntity.created(uri).body(new AuthTokenDto(tokenJWT, tutor.getIdPerson(), "Registro concluído"));
     }
 
     public ResponseEntity<MessageWithEmail> requestNewPassword(String email){
-        if (loginRepository.existsLoginByEmail(email)){
+        if (loginRepository.existsLoginByEmailLogin(email)){
             sendEmail.sendRequestNewPasswordEmail(email);
             return ResponseEntity.ok(new MessageWithEmail(email,"Email enviado com sucesso"));
         }
@@ -81,7 +81,7 @@ public class LoginService {
 
     public ResponseEntity<MessageWithEmail> recoverPassword(NewPasswordDto newPasswordDto){
 
-        if (loginRepository.existsLoginByEmail(newPasswordDto.email())){
+        if (loginRepository.existsLoginByEmailLogin(newPasswordDto.email())){
             Login login = loginRepository.getReferenceById(newPasswordDto.email());
             login.setPasswordLogin(newPasswordDto.senha());
 

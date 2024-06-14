@@ -23,10 +23,10 @@ public class TokenService {
             Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API Pet Spot")
-                    .withSubject(usuario.getEmail())
+                    .withSubject(usuario.getEmailLogin())
                     .withIssuedAt(dateNow())
                     .withExpiresAt(dateExpiration())
-                    .withClaim("userId", usuario.getPetOwner().getId())
+                    .withClaim("userId", usuario.getPersonLogin().getIdPerson())
 
                     .sign(algoritimo);
         }catch (JWTCreationException exception){

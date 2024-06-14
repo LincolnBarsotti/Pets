@@ -1,7 +1,7 @@
 package br.com.petspot.model.entity.login;
 
+import br.com.petspot.model.entity.tutors.Person;
 import br.com.petspot.model.dto.logindto.TypesUsers;
-import br.com.petspot.model.entity.petOwner.PetOwner;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -22,27 +22,27 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id", "email"})
+@EqualsAndHashCode(of = {"idLogin"})
 @Entity(name = "Login")
 @Table(name = "login")
 public class Login implements UserDetails {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
-    private String id;
+    private String idLogin;
 
     @Email
-    private String email;
+    private String emailLogin;
 
     private String passwordLogin;
 
     private String typeOfUser;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pet_owner_id")
-    private PetOwner petOwner;
+    @JoinColumn(name = "person_login_id")
+    private Person personLogin;
 
     public Login(RegisterUserDto registerUserDto, String passwordLogin) {
-        this.email = registerUserDto.email();
+        this.emailLogin = registerUserDto.email();
         this.passwordLogin = passwordLogin;
         this.typeOfUser = TypesUsers.PETOWNER.name();
     }
@@ -62,7 +62,7 @@ public class Login implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.emailLogin;
     }
 
     @Override

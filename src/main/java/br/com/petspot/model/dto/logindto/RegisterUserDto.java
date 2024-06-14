@@ -2,9 +2,8 @@ package br.com.petspot.model.dto.logindto;
 
 import jakarta.validation.constraints.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public record RegisterUserDto(
         @Email
@@ -22,14 +21,7 @@ public record RegisterUserDto(
         String birthday
 ) {
 
-     public Date getDate() {
-         SimpleDateFormat inputFormatter = new SimpleDateFormat("yyyy-MM-dd");  // Input format
-         SimpleDateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");  // Output format
-            try {
-                Date date = inputFormatter.parse(birthday);
-                return outputFormatter.parse(outputFormatter.format(date));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+     public LocalDate getDate() {
+         return LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }
 }

@@ -27,7 +27,7 @@ public record RegisterPetDto(
                 try {
                         return LocalDate.parse(birthday, formatter);
                 } catch (DateTimeParseException e) {
-                        throw new RuntimeException("Data de aniversário inválida: " + birthday, e);
+                        throw new RuntimeException("Data inválida: " + birthday, e);
                 }
         }
 }
