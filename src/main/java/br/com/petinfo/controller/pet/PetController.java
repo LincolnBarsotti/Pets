@@ -1,6 +1,7 @@
 package br.com.petinfo.controller.pet;
 
 import br.com.petinfo.model.dto.petdto.RegisterPetDto;
+import br.com.petinfo.model.dto.petdto.VaccineDTO;
 import br.com.petinfo.model.messages.pet.MessageAllDatasPetDto;
 import br.com.petinfo.model.messages.pet.MessageListPageablePetDto;
 import br.com.petinfo.model.messages.pet.MessageRegisterPetDto;
@@ -36,5 +37,18 @@ public class PetController {
     public ResponseEntity<MessageRegisterPetDto> registerPet(@RequestBody @Valid RegisterPetDto petDto, @PathVariable(name = "id") String tutor, UriComponentsBuilder uriBuilder){
         return petService.registerPet(petDto,tutor,uriBuilder);
     }
+
+    @GetMapping("/{petId}/vaccines")
+    public ResponseEntity getVaccines(@PathVariable(name = "petId") String param){
+        return petService.getVaccines(param);
+    }
+
+    @PostMapping("/{petId}/vaccines")
+    public ResponseEntity registerVaccine(@PathVariable(name = "petId") String param, @RequestBody @Valid VaccineDTO vaccineDTO){
+        return petService.registerVaccine(param,vaccineDTO);
+    }
+
+
+
 
 }

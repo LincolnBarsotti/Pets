@@ -41,6 +41,12 @@ public class Pet {
     @ManyToMany(mappedBy = "pet")
     private Set<Person> person = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "vaccine_pet",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name = "vaccine_id"))
+    private Set<Vaccine> vaccines;
+
     public Pet(RegisterPetDto petDto) {
         this.petName = petDto.name();
 
@@ -72,4 +78,3 @@ public class Pet {
     }
 
 }
-// Vou mija e ja volto

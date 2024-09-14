@@ -4,6 +4,8 @@ import br.com.petinfo.model.dto.petdto.AllDatasPetDto;
 import br.com.petinfo.model.dto.petdto.RegisterPetDto;
 import br.com.petinfo.model.dto.petdto.SavedDatasPetDto;
 
+import br.com.petinfo.model.dto.petdto.VaccineDTO;
+import br.com.petinfo.model.entity.Pet.Vaccine;
 import br.com.petinfo.model.messages.pet.MessageAllDatasPetDto;
 import br.com.petinfo.model.messages.pet.MessageListPageablePetDto;
 import br.com.petinfo.model.messages.pet.MessageRegisterPetDto;
@@ -12,6 +14,7 @@ import br.com.petinfo.model.entity.Pet.Pet;
 import br.com.petinfo.repository.PersonRepository;
 import br.com.petinfo.repository.PetRepository;
 
+import br.com.petinfo.repository.VaccineRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +30,9 @@ public class PetService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private VaccineRepository vaccineRepository;
 
     public ResponseEntity<MessageListPageablePetDto> listPetByOwner(String tutor, Pageable page){
         return ResponseEntity.ok(
@@ -54,6 +60,25 @@ public class PetService {
         var uri = uriBuilder.path("pet/{id}").buildAndExpand(pet.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new MessageRegisterPetDto(new SavedDatasPetDto(pet)));
+    }
+
+    public ResponseEntity registerVaccine(String pet, VaccineDTO vaccineDTO){
+
+        Pet animal =  petRepository.getReferenceById(pet);
+        Vaccine vaccine = new Vaccine(vaccineDTO);
+
+        vaccineRepository.save(vaccine);
+
+        animal.getVaccines().add(vaccine);
+
+        petRepository.save(animal);
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity getVaccines(String pet){
+        var pets = petRepository.getReferenceById(pet);
+        return ResponseEntity.ok().body(pets.getVaccines());
     }
 
 }
